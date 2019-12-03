@@ -29,5 +29,12 @@ public class Spaceship {
 	public void fire() {
 		//create new laserbolt object at tip of triangle
 	}
-
+	public void keyPressed(keyEvent e)
+	{
+		int keyCode = e.getKeyCode();
+		if(keyCode == KeyEvent.VK_A)
+			xcoord += 5;
+		else if(keyCode == KeyEvent.VK_D)
+			xcoord -= 5;
+	}
 }
