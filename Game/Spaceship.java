@@ -1,40 +1,21 @@
+package Game;
 
-public class Spaceship {
-
-	private int xcoord;
-	private int ycoord;
-
-	Spaceship() {
-		xcoord = 0;
-		ycoord = 0;
+public class Spaceship extends GameObject{
+	
+	public int health;
+	
+	Spaceship(){
+	
 	}
-
-	//Getter and setter methods
-	public double getX() {
-		return xcoord;
+	
+	//Fire a blaster bolt
+	public void shoot(Spaceship c) {
+		
 	}
-
-	public double getY() {
-		return ycoord;
+	//Decreases the health
+	public void takeDamage(Spaceship c) {
+		this.health = this.health - 1000;
 	}
-
-	public void setX(int arg) {
-		xcoord = arg;
-	}
-
-	public void setY(int arg) {
-		ycoord = arg;
-	}
-
-	public void fire() {
-		//create new laserbolt object at tip of triangle
-	}
-	public void keyPressed(keyEvent e)
-	{
-		int keyCode = e.getKeyCode();
-		if(keyCode == KeyEvent.VK_A)
-			xcoord += 5;
-		else if(keyCode == KeyEvent.VK_D)
-			xcoord -= 5;
-	}
+	
+	
 }
