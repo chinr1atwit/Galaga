@@ -1,3 +1,5 @@
+import java.awt.event.KeyEvent;
+
 public class Spaceship extends GameObject{
 	
 	public int health;
@@ -14,6 +16,7 @@ public class Spaceship extends GameObject{
 	public void takeDamage(Spaceship c) {
 		this.health = this.health - 1000;
 	}
+
 	
 	
 }

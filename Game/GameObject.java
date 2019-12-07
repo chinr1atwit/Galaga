@@ -1,7 +1,13 @@
+import java.awt.Image;
+
 class GameObject {
 	
 	private int xcoord;
 	private int ycoord;
+	private int height;
+	private int width;
+	private boolean isVisible;
+	//private Image image;
 	
 	GameObject(){
 		xcoord = 100;
