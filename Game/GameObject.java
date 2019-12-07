@@ -7,6 +7,11 @@ class GameObject {
 		xcoord = 100;
 		ycoord = 100;
 	}
+
+	GameObject(int x, int y){
+		xcoord = x;
+		ycoord = y;
+	}
 	
 	//Getters and setters of coordinates
 	public int getX() {
