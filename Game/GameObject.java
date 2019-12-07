@@ -1,6 +1,4 @@
-package Game;
-
-public class GameObject {
+class GameObject {
 	
 	private int xcoord;
 	private int ycoord;

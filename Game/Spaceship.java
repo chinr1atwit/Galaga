@@ -1,5 +1,3 @@
-package Game;
-
 public class Spaceship extends GameObject{
 	
 	public int health;
