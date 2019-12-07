@@ -2,21 +2,21 @@ import java.util.ArrayList;
 
 public class GameScene
 {
-    Spaceship ship = new Spaceship();
+    Player player = new Player();
     static ArrayList<Laser> lasers = new ArrayList<>();
-    static ArrayList<Spaceship> aliens = new ArrayList<>();
+    private static ArrayList<Alien> aliens = new ArrayList<>();
     
     public static void main(String[] args)
     {
-
+    	
     } 
     public static void destroyLaser(Laser l)
     {
     	lasers.remove(l);
     }
-    public static void destroyAlien(Spaceship s)
+    public static void destroyAlien(Alien a)
     {
-    	aliens.remove(s);
+    	aliens.remove(a);
     }
     public static void createLaser(int x, int y)
     {
@@ -25,5 +25,17 @@ public class GameScene
     public static void createAlien(int x, int y)
     {
     	aliens.add(new Alien(x, y));
+    }
+    public void moveShips()
+    {
+    	player.move();
+    	for(Alien a : aliens)
+    	{
+    		a.move();
+    	}
+    }
+    public static ArrayList<Alien> getAliens()
+    {
+    	return aliens;
     }
 }

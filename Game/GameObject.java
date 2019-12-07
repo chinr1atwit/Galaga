@@ -4,8 +4,8 @@ class GameObject {
 	
 	private int xcoord;
 	private int ycoord;
-	private int height;
-	private int width;
+	protected int height;
+	protected int width;
 	private boolean isVisible;
 	//private Image image;
 	
