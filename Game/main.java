@@ -4,6 +4,8 @@ public class main {
 		Spaceship fighter = new Spaceship();
 		fighter.setY(20);
 		System.out.print(fighter.getX());
+		
+		GameScene board = new GameScene();
 	}
 
 }
