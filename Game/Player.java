@@ -16,7 +16,8 @@ public class Player extends Spaceship{
 	
 	public void move()
 	{
-		this.setX(this.getX() + speed);
+		if(this.getX() != 0 && this.getX() != 500)
+			this.setX(this.getX() + speed);
 	}
 	
 	public void keyPressed(KeyEvent k)

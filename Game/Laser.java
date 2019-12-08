@@ -24,7 +24,7 @@ public class Laser extends GameObject
         else
             move();
     }
-    private boolean isCollision()
+    private boolean isCollision() //checks for collision
     {
     	int y = this.getY(), x = this.getX();
     	for(Alien a : GameScene.getAliens())
@@ -45,7 +45,7 @@ public class Laser extends GameObject
     	}
     	return false;
     }
-    private Alien collisionWith()
+    private Alien collisionWith() //returns the alien the laser collided with
     {
     	int y = this.getY(), x = this.getX();
     	for(Alien a : GameScene.getAliens())
