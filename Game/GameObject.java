@@ -7,16 +7,19 @@ class GameObject {
 	protected int height;
 	protected int width;
 	private boolean isVisible;
+	private Image image;
 	//private Image image;
 	
 	GameObject(){
 		xcoord = 100;
 		ycoord = 100;
+		isVisible = true;
 	}
 
 	GameObject(int x, int y){
 		xcoord = x;
 		ycoord = y;
+		isVisible = true;
 	}
 	
 	//Getters and setters of coordinates
@@ -34,5 +37,22 @@ class GameObject {
 	
 	public void setY(int n) {
 		this.ycoord = n;
+	}
+	
+	
+	
+	//
+	public void setImage(Image image) {
+
+        this.image = image;
+    }
+
+    public Image getImage() {
+
+        return image;
+    }
+    
+	public void setVisibilty(boolean vis) {
+		isVisible = vis;
 	}
 }

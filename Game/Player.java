@@ -1,4 +1,5 @@
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 public class Player extends Spaceship{
 	
@@ -6,7 +7,18 @@ public class Player extends Spaceship{
 	private int speed = 1;
 	
 	Player() {
-		super();
+		//super();
+        var playerImg = "file:///Users/jquilty/Desktop/playership.png"; //////THIS IS LOCAL AND NEEDS TO BE IN PROJECT
+        var ii = new ImageIcon(playerImg);
+
+        width = ii.getImage().getWidth(null);
+        setImage(ii.getImage());
+
+        int START_X = 270;
+        setX(START_X);
+
+        int START_Y = 280;
+        setY(START_Y);
 	}
 	
 	Player(int x, int y)
@@ -57,4 +69,5 @@ public class Player extends Spaceship{
 			}
 		}
 	}
+	
 }

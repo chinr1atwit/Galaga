@@ -1,5 +1,6 @@
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
@@ -7,7 +8,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-public class GameScene
+import javax.swing.JPanel;
+
+public class GameScene extends JPanel
 {
     Player player = new Player(275, 550);
     static ArrayList<Laser> lasers = new ArrayList<>();
@@ -18,7 +21,11 @@ public class GameScene
 	private static Panel controlPanel;
 
 	public GameScene(){
+		Graphics g = new Graphics();
+		
 		prepareGUI();
+		createPlayer();
+		drawPlayer();
 	}
     private static void prepareGUI(){
     	   mainFrame = new Frame("Galaga");
@@ -57,6 +64,9 @@ public class GameScene
     {
     	aliens.add(new Alien(x, y));
     }
+    public static void createPlayer() {
+    	Player player = new Player();
+    }
     public void moveShips()
     {
     	player.move();
@@ -69,4 +79,11 @@ public class GameScene
     {
     	return aliens;
     }
+    
+    private void drawPlayer(Graphics g) {
+
+        g.drawImage(player.getImage(), player.getX(), player.getY(), this);
+    }
+    
+    
 }
