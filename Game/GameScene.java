@@ -1,52 +1,93 @@
-import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.Canvas;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Label;
-import java.awt.Panel;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
-import javax.swing.JPanel;
-
-public class GameScene extends JPanel
+import javax.swing.JFrame;
+public class GameScene extends Canvas implements Runnable
 {
-    Player player = new Player(275, 550);
+    Player player;
     static ArrayList<Laser> lasers = new ArrayList<>();
     private static ArrayList<Alien> aliens = new ArrayList<>();
-    private static Frame mainFrame;
-	private static Label headerLabel;
-	private static Label statusLabel;
-	private static Panel controlPanel;
-
-	public GameScene(){
-		Graphics g = new Graphics();
-		
-		prepareGUI();
-		createPlayer();
-		drawPlayer();
+	private boolean inGame = false;
+	private Thread thread;
+	private BufferedImage background = new BufferedImage(550, 650, BufferedImage.TYPE_INT_RGB);	
+	public void init()
+	{
+		requestFocus();
+		player = new Player(225, 450);
+		addKeyListener(new KeyInput(this));
 	}
-    private static void prepareGUI(){
-    	   mainFrame = new Frame("Galaga");
-    	   mainFrame.setSize(550,650);
-    	   mainFrame.setLayout(new GridLayout(3, 1));
-    	   mainFrame.addWindowListener(new WindowAdapter() {
-    		   public void windowClosing(WindowEvent windowEvent){
-    			   System.exit(0);
-    		   }     
-    	   });   
-    	   headerLabel = new Label();
-    	   headerLabel.setAlignment(Label.CENTER);
-    	   statusLabel = new Label();     
-    	   statusLabel.setAlignment(Label.CENTER);
-    	   statusLabel.setSize(350,100);
-    	   controlPanel = new Panel();
-    	   controlPanel.setLayout(new FlowLayout());
-    	   mainFrame.add(headerLabel);
-    	   mainFrame.add(controlPanel);
-    	   mainFrame.add(statusLabel);
-    	   mainFrame.setVisible(true);  
+	public void run()
+	{
+		init();
+		createAlien(225, 100);
+		while(inGame)
+		{
+			long now = System.nanoTime();
+			update();
+			render();
+		}
+		stop();
+	}
+	private void render()
+	{
+		BufferStrategy buffStrat = this.getBufferStrategy();
+		if(buffStrat == null)
+		{
+			createBufferStrategy(3);
+			return;
+		}
+		Graphics g = buffStrat.getDrawGraphics();
+		g.drawImage(background, 0, 0, 550, 650, this);
+		g.drawImage(player.getImage(), player.getX(), player.getY(), player.width, player.height, this);
+		for(Alien a : aliens)
+		{
+			g.drawImage(a.getImage(), a.getX(), a.getY(), a.width, a.height, this);
+		}
+		for(Laser l : lasers)
+		{
+			g.drawImage(l.getImage(), l.getX(), l.getY(), l.width, l.height, this);
+		}
+		update();
+		g.dispose();
+		buffStrat.show();
+	}
+	private synchronized void start()
+	{
+		if(inGame)
+			return;
+		inGame = true;
+		thread = new Thread(this);
+		thread.start();
+	}
+	private synchronized void stop()
+	{
+		if(!inGame)
+			inGame = false;
+		try
+		{
+			thread.join();
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		System.exit(1);
+	}
+    public static void main(String[] args)
+    {
+    	GameScene gs = new GameScene();
+    	gs.setPreferredSize(new Dimension(550, 650));
+    	JFrame frame = new JFrame("Galaga");
+    	frame.add(gs);
+    	frame.pack();
+    	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	frame.setResizable(false);
+    	frame.setLocationRelativeTo(null);
+    	frame.setVisible(true);
+    	gs.start();
     }
     public static void destroyLaser(Laser l)
     {
@@ -64,26 +105,59 @@ public class GameScene extends JPanel
     {
     	aliens.add(new Alien(x, y));
     }
-    public static void createPlayer() {
-    	Player player = new Player();
-    }
-    public void moveShips()
+    public void update()
     {
     	player.move();
     	for(Alien a : aliens)
     	{
     		a.move();
     	}
+    	if(lasers.size() != 0) {
+	    	for(Laser l : lasers)
+	    	{
+	    		l.move();
+	    	}
+    	}
     }
     public static ArrayList<Alien> getAliens()
     {
     	return aliens;
     }
-    
-    private void drawPlayer(Graphics g) {
-
-        g.drawImage(player.getImage(), player.getX(), player.getY(), this);
-    }
-    
-    
+    public void keyPressed(KeyEvent k)
+	{
+		int keyCode = k.getKeyCode();
+		switch(keyCode) {
+			case(KeyEvent.VK_LEFT):
+			{
+				player.speed = -1;
+				break;
+			}
+			case(KeyEvent.VK_RIGHT):
+			{
+				player.speed = 1;
+				break;
+			}
+			case(KeyEvent.VK_SPACE):
+			{
+				player.shoot();
+				break;
+			}
+		}
+	}
+	public void keyReleased(KeyEvent k)
+	{
+		int keyCode = k.getKeyCode();
+		switch(keyCode) {
+			case(KeyEvent.VK_LEFT):
+			{
+				player.speed = 0;
+				break;
+			}
+			case(KeyEvent.VK_RIGHT):
+			{
+				player.speed = 0;
+				break;
+			}
+		}
+	}
 }

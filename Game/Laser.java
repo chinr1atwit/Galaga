@@ -1,6 +1,5 @@
-
 public class Laser extends GameObject
-{    
+{
     public Laser()
     {
         super(0, 0);
@@ -9,16 +8,19 @@ public class Laser extends GameObject
     public Laser(int x, int y)
     {
     	super(x, y);
-        move();
+        loadImage("Game/laser3.png");
+        getImageDimensions();
     }
-    private void move()
+    public void move()
     {
         this.setY(this.getY() - 5);
         if(this.getY() + height < 0)
             GameScene.destroyLaser(this);
         else if(isCollision())
         {
-        	GameScene.destroyAlien(collisionWith());
+        	collisionWith().takeDamage();
+        	if(collisionWith().health <= 0)
+        		GameScene.destroyAlien(collisionWith());
         	GameScene.destroyLaser(this);
         }
         else

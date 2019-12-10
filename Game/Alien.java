@@ -1,4 +1,3 @@
-
 public class Alien extends Spaceship{
 	public Alien()
 	{
@@ -7,6 +6,8 @@ public class Alien extends Spaceship{
 	public Alien(int x, int y)
 	{
 		super(x, y);
+		loadImage("Game/enemy2.png");
+		getImageDimensions();
 	}
 	public void move()
 	{

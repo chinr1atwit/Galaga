@@ -1,73 +1,28 @@
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
-
 public class Player extends Spaceship{
-	
 	public int lives = 3;
-	private int speed = 1;
-	
+	public int speed = 0;
 	Player() {
-		//super();
-        var playerImg = "file:///Users/jquilty/Desktop/playership.png"; //////THIS IS LOCAL AND NEEDS TO BE IN PROJECT
-        var ii = new ImageIcon(playerImg);
-
-        width = ii.getImage().getWidth(null);
-        setImage(ii.getImage());
-
-        int START_X = 270;
-        setX(START_X);
-
-        int START_Y = 280;
-        setY(START_Y);
+		super();
+		loadImage("Game/playerShip.png");
+		getImageDimensions();
 	}
-	
 	Player(int x, int y)
 	{
 		super(x, y);
+		loadImage("Game/playerShip.png");
+		getImageDimensions();
 	}
-	
+	public void update()
+	{
+		this.setX(this.getX() + speed);
+	}
 	public void move()
 	{
-		if(this.getX() != 0 && this.getX() != 500)
-			this.setX(this.getX() + speed);
+		if(this.getX()+width/2+20 == 500 && speed > 0)
+			speed = 0;
+		if(this.getX() == 0 && speed < 0)
+			speed = 0;
+		this.setX(this.getX() + speed);
 	}
-	
-	public void keyPressed(KeyEvent k)
-	{
-		int keyCode = k.getKeyCode();
-		switch(keyCode) {
-			case(KeyEvent.VK_LEFT):
-			{
-				speed = -1;
-				break;
-			}
-			case(KeyEvent.VK_RIGHT):
-			{
-				speed = 1;
-				break;
-			}
-			case(KeyEvent.VK_SPACE):
-			{
-				shoot();
-				break;
-			}
-		}
-	}
-	public void keyReleased(KeyEvent k)
-	{
-		int keyCode = k.getKeyCode();
-		switch(keyCode) {
-			case(KeyEvent.VK_LEFT):
-			{
-				speed = 0;
-				break;
-			}
-			case(KeyEvent.VK_RIGHT):
-			{
-				speed = 0;
-				break;
-			}
-		}
-	}
-	
 }
