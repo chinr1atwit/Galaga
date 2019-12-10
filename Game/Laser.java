@@ -14,18 +14,21 @@ public class Laser extends GameObject
     }
     public void move()
     {
-        this.setY(this.getY() - 1);
-        if(this.getY() + height < 0)
-            GameScene.markedLasers.add(GameScene.lasers.indexOf(this)); //mark for death
-        else if(isCollision())
-        {
-        	collisionWith().takeDamage();
-        	if(collisionWith().health <= 0)
-        		GameScene.markedAliens.add(GameScene.getAliens().indexOf(collisionWith())); //mark for death
-        	GameScene.markedLasers.add(GameScene.lasers.indexOf(this)); //mark for death
-        }
-        else
-            move();
+    	timer++;
+	    if(timer % 3 == 0) {
+	        this.setY(this.getY() - 1);
+	        if(this.getY() + height < 0)
+	            GameScene.markedLasers.add(GameScene.lasers.indexOf(this)); //mark for death
+	        else if(isCollision())
+	        {
+	        	collisionWith().takeDamage();
+	        	if(collisionWith().health <= 0)
+	        		GameScene.markedAliens.add(GameScene.getAliens().indexOf(collisionWith())); //mark for death
+	        	GameScene.markedLasers.add(GameScene.lasers.indexOf(this)); //mark for death
+	        }
+	        else
+	            move();
+    	}
     }
     private boolean isCollision() //checks for collision
     {

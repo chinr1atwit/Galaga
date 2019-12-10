@@ -1,4 +1,4 @@
-import java.awt.event.KeyEvent;
+
 public class Player extends Spaceship{
 	public int lives = 3;
 	public int speed = 0;
