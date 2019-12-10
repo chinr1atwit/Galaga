@@ -27,6 +27,11 @@ public class GameScene extends Canvas implements Runnable
 	{
 		init();
 		createAlien(225, 100);
+		createAlien(225,200);
+		createAlien(325,100);
+		createAlien(325,200);
+		createAlien(125,100);
+		createAlien(125,200);
 		while(inGame)
 		{
 			update();
