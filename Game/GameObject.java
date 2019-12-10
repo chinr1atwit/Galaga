@@ -5,7 +5,6 @@ public abstract class GameObject {
 	private int ycoord;
 	protected int height;
 	protected int width;
-	private boolean isVisible;
 	private Image image;
 	GameObject(){
 		xcoord = 100;
@@ -41,13 +40,5 @@ public abstract class GameObject {
 	}
 	public void setY(int n) {
 		this.ycoord = n;
-	}
-	public boolean getVisible()
-	{
-		return isVisible;
-	}
-	public void setVisible(boolean b)
-	{
-		isVisible = b;
 	}
 }

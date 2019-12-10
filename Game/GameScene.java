@@ -119,6 +119,7 @@ public class GameScene extends Canvas implements Runnable
     	for(Laser l : lasers)
     	{
     		l.move();
+    		System.out.printf("laserX: %d\nlaserY: %d\nPlayerY: %d\n", l.getX(), l.getY(), player.getY());
 	    }
     	for(Integer i : markedLasers)
     	{
