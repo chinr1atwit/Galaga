@@ -9,8 +9,11 @@ import javax.swing.JFrame;
 public class GameScene extends Canvas implements Runnable
 {
     Player player;
-    static ArrayList<Laser> lasers = new ArrayList<>();
+    public static ArrayList<Laser> lasers = new ArrayList<>();
     private static ArrayList<Alien> aliens = new ArrayList<>();
+    public static ArrayList<Integer> markedLasers = new ArrayList<>();
+    public static ArrayList<Integer> markedAliens = new ArrayList<>();
+    int foo = 0, bar = 0;
 	private boolean inGame = false;
 	private Thread thread;
 	private BufferedImage background = new BufferedImage(550, 650, BufferedImage.TYPE_INT_RGB);	
@@ -26,7 +29,6 @@ public class GameScene extends Canvas implements Runnable
 		createAlien(225, 100);
 		while(inGame)
 		{
-			long now = System.nanoTime();
 			update();
 			render();
 		}
@@ -49,7 +51,7 @@ public class GameScene extends Canvas implements Runnable
 		}
 		for(Laser l : lasers)
 		{
-			g.drawImage(l.getImage(), l.getX(), l.getY(), l.width, l.height, this);
+				g.drawImage(l.getImage(), l.getX(), l.getY(), l.width, l.height, this);
 		}
 		update();
 		g.dispose();
@@ -112,12 +114,24 @@ public class GameScene extends Canvas implements Runnable
     	{
     		a.move();
     	}
-    	if(lasers.size() != 0) {
-	    	for(Laser l : lasers)
-	    	{
-	    		l.move();
-	    	}
+    	for(Laser l : lasers)
+    	{
+    		l.move();
+	    }
+    	for(Integer i : markedLasers)
+    	{
+    		lasers.remove((int)i - foo);
+    		foo++;
     	}
+    	for(Integer i : markedAliens)
+    	{
+    		aliens.remove((int)i - bar);
+    		bar++;
+    	}
+    	foo = 0;
+    	bar = 0;
+    	markedLasers.removeAll(markedLasers);
+    	markedAliens.removeAll(markedAliens);
     }
     public static ArrayList<Alien> getAliens()
     {

@@ -8,7 +8,7 @@ public class Spaceship extends GameObject{
 	}
 	//Fire a blaster bolt
 	public void shoot(){
-		GameScene.createLaser(this.getX() + width/2 + 20, this.getY() + this.height);
+		GameScene.createLaser(this.getX() + 55, this.getY());
 	}
 	//Decreases the health
 	public void takeDamage() {
