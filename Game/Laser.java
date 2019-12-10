@@ -1,5 +1,6 @@
 public class Laser extends GameObject
 {
+	public int timer = 0;
     public Laser()
     {
         super(0, 0);
@@ -13,15 +14,15 @@ public class Laser extends GameObject
     }
     public void move()
     {
-        this.setY(this.getY() - 5);
+        this.setY(this.getY() - 1);
         if(this.getY() + height < 0)
-            GameScene.destroyLaser(this);
+            GameScene.markedLasers.add(GameScene.lasers.indexOf(this)); //mark for death
         else if(isCollision())
         {
         	collisionWith().takeDamage();
         	if(collisionWith().health <= 0)
-        		GameScene.destroyAlien(collisionWith());
-        	GameScene.destroyLaser(this);
+        		GameScene.markedAliens.add(GameScene.getAliens().indexOf(collisionWith())); //mark for death
+        	GameScene.markedLasers.add(GameScene.lasers.indexOf(this)); //mark for death
         }
         else
             move();
