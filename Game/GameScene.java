@@ -9,10 +9,27 @@ import javax.swing.JFrame;
 public class GameScene extends Canvas implements Runnable
 {
     Player player;
-    public static ArrayList<Laser> lasers = new ArrayList<>();
-    private static ArrayList<Alien> aliens = new ArrayList<>();
-    public static ArrayList<Integer> markedLasers = new ArrayList<>();
-    public static ArrayList<Integer> markedAliens = new ArrayList<>();
+    public static ArrayList<Laser> lasers = new ArrayList<Laser>();
+    private static ArrayList<Alien> aliens = new ArrayList<Alien>();
+    public static ArrayList<Integer> markedLasers = new ArrayList<Integer>();
+    public static ArrayList<Integer> markedAliens = new ArrayList<Integer>();
+    
+    private int[][] positions = {{40, 100},
+    		 					 {40, 150},
+    		 					 {40, 200},
+    							 {140,100}, 
+    							 {140,150},
+    		 					 {140,200},
+    		 					 {240,100},
+    		 					 {240,150},
+    		 					 {240,200},
+    		 					 {340,100},
+    		 					 {340,150},
+    		 					 {340,200},
+    		 					 {440,100},
+    		 					 {440,150},
+    		 					 {440,200}};
+	
     int foo = 0, bar = 0;
 	private boolean inGame = false;
 	private Thread thread;
@@ -20,18 +37,17 @@ public class GameScene extends Canvas implements Runnable
 	public void init()
 	{
 		requestFocus();
+		for(int i = 0; i < positions.length; i++)
+		{
+			createAlien(positions[i][0], positions[i][1]);
+		}
 		player = new Player(225, 450);
 		addKeyListener(new KeyInput(this));
 	}
 	public void run()
 	{
 		init();
-		createAlien(225, 100);
-		createAlien(225,200);
-		createAlien(325,100);
-		createAlien(325,200);
-		createAlien(125,100);
-		createAlien(125,200);
+
 		while(inGame)
 		{
 			update();
