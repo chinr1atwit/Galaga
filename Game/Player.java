@@ -1,5 +1,5 @@
-
-public class Player extends Spaceship{
+public class Player extends Spaceship
+{
 	public int lives = 3;
 	public int speed = 0;
 	Player() {

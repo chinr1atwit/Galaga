@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 public class GameScene extends Canvas implements Runnable
 {
-    Player player;
+	static GameScene gs;
+    public static Player player;
     public static ArrayList<Laser> lasers = new ArrayList<Laser>();
-    private static ArrayList<Alien> aliens = new ArrayList<Alien>();
+    public static ArrayList<Alien> aliens = new ArrayList<Alien>();
+    public static ArrayList<AlienLaser> alienLasers = new ArrayList<AlienLaser>();
     public static ArrayList<Integer> markedLasers = new ArrayList<Integer>();
     public static ArrayList<Integer> markedAliens = new ArrayList<Integer>();
-    
+    public static ArrayList<Integer> markedAlienLasers = new ArrayList<Integer>();
     private int[][] positions = {{40, 100},
     		 					 {40, 150},
     		 					 {40, 200},
@@ -30,7 +32,8 @@ public class GameScene extends Canvas implements Runnable
     		 					 {440,150},
     		 					 {440,200}};
 	
-    int foo = 0, bar = 0;
+    int foo = 0, bar = 0, baz = 0, timer = 3000;
+    private boolean onCooldown = false;
 	private boolean inGame = false;
 	private Thread thread;
 	private BufferedImage background = new BufferedImage(550, 650, BufferedImage.TYPE_INT_RGB);	
@@ -78,6 +81,47 @@ public class GameScene extends Canvas implements Runnable
 		g.dispose();
 		buffStrat.show();
 	}
+    public void update()
+    {
+    	player.move();
+    	System.out.println(timer);
+    	if(onCooldown)
+    		timer--;
+    	if(timer == 0)
+    	{
+    		timer = 3000;
+    		onCooldown = false;
+    	}
+    	for(Alien a : aliens)
+    	{
+    		a.move();
+    	}
+    	for(Laser l : lasers)
+    	{
+    		l.move();
+	    }
+    	for(Integer i : markedLasers)
+    	{
+    		lasers.remove((int)i - foo);
+    		foo++;
+    	}
+    	for(Integer i : markedAliens)
+    	{
+    		aliens.remove((int)i - bar);
+    		bar++;
+    	}
+    	for(Integer i : markedAlienLasers)
+    	{
+    		alienLasers.remove((int)i - baz);
+    		baz++;
+    	}
+    	foo = 0;
+    	bar = 0;
+    	baz = 0;
+    	markedLasers.removeAll(markedLasers);
+    	markedAliens.removeAll(markedAliens);
+    	markedAlienLasers.removeAll(markedAlienLasers);
+    }
 	private synchronized void start()
 	{
 		if(inGame)
@@ -101,7 +145,7 @@ public class GameScene extends Canvas implements Runnable
 	}
     public static void main(String[] args)
     {
-    	GameScene gs = new GameScene();
+    	gs = new GameScene();
     	gs.setPreferredSize(new Dimension(550, 650));
     	JFrame frame = new JFrame("Galaga");
     	frame.add(gs);
@@ -120,6 +164,10 @@ public class GameScene extends Canvas implements Runnable
     {
     	aliens.remove(a);
     }
+    public static void destroyPlayer()
+    {
+    	gs.stop();
+    }
     public static void createLaser(int x, int y)
     {
     	lasers.add(new Laser(x, y));
@@ -128,36 +176,7 @@ public class GameScene extends Canvas implements Runnable
     {
     	aliens.add(new Alien(x, y));
     }
-    public void update()
-    {
-    	player.move();
-    	for(Alien a : aliens)
-    	{
-    		a.move();
-    	}
-    	for(Laser l : lasers)
-    	{
-    		l.move();
-	    }
-    	for(Integer i : markedLasers)
-    	{
-    		lasers.remove((int)i - foo);
-    		foo++;
-    	}
-    	for(Integer i : markedAliens)
-    	{
-    		aliens.remove((int)i - bar);
-    		bar++;
-    	}
-    	foo = 0;
-    	bar = 0;
-    	markedLasers.removeAll(markedLasers);
-    	markedAliens.removeAll(markedAliens);
-    }
-    public static ArrayList<Alien> getAliens()
-    {
-    	return aliens;
-    }
+
     public void keyPressed(KeyEvent k)
 	{
 		int keyCode = k.getKeyCode();
@@ -174,7 +193,11 @@ public class GameScene extends Canvas implements Runnable
 			}
 			case(KeyEvent.VK_SPACE):
 			{
-				player.shoot();
+				if(timer == 0 || !onCooldown) 
+				{
+					player.shoot();
+					onCooldown = true;
+				}
 				break;
 			}
 		}

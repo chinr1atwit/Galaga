@@ -23,7 +23,7 @@ public class Laser extends GameObject
 	        {
 	        	collisionWith().takeDamage();
 	        	if(collisionWith().health <= 0)
-	        		GameScene.markedAliens.add(GameScene.getAliens().indexOf(collisionWith())); //mark for death
+	        		GameScene.markedAliens.add(GameScene.aliens.indexOf(collisionWith())); //mark for death
 	        	GameScene.markedLasers.add(GameScene.lasers.indexOf(this)); //mark for death
 	        }
 	        else
@@ -33,7 +33,7 @@ public class Laser extends GameObject
     private boolean isCollision() //checks for collision
     {
     	int y = this.getY(), x = this.getX();
-    	for(Alien a : GameScene.getAliens())
+    	for(Alien a : GameScene.aliens)
     	{
     		for(int i = 0; i <= this.height; i++)
     		{
@@ -54,7 +54,7 @@ public class Laser extends GameObject
     private Alien collisionWith() //returns the alien the laser collided with
     {
     	int y = this.getY(), x = this.getX();
-    	for(Alien a : GameScene.getAliens())
+    	for(Alien a : GameScene.aliens)
     	{
     		for(int i = 0; i <= this.height; i++)
     		{

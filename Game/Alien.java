@@ -1,4 +1,7 @@
 public class Alien extends Spaceship{
+	
+	int timer = 0;
+	int moved = 0;
 	public Alien()
 	{
 		super();
@@ -11,7 +14,21 @@ public class Alien extends Spaceship{
 	}
 	public void move()
 	{
-		this.setX(this.getX());
-		this.setY(this.getY());
+		timer++;
+		if(timer%225 == 0)
+		{
+			this.setX(this.getX()+1);
+			moved++;
+			if(this.getY() > 650)
+			{
+				GameScene.markedAliens.add(GameScene.aliens.indexOf(this));
+			}
+			else if(moved == 110-this.width)
+			{
+				this.setY(this.getY()+this.height);
+				this.setX(this.getX()-110+this.width);
+				moved = 0;
+			}
+		}
 	}
 }
